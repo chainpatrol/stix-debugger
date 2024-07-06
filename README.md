@@ -1,9 +1,8 @@
 # STIX Studio
 
-This is a simple editor + debugger for STIX 2.1 JSON files. Simply paste your STIX data into the code editor and we will parse and display a graph visualization of the STIX objects and their relationships.
+This is a web-based tool for creating and editing STIX 2.1 objects. Authoring STIX objects can be a complex and error-prone process, so this tool aims to make it easier by providing a Notion-like interface for writing incident reports in plain English, and then converting them to STIX objects.
 
 ![STIX Studio Screenshot](https://github.com/chainpatrol/stix-studio/assets/8302959/dcd4f8ed-e724-472b-bc56-5c4d903517a7)
-
 
 ## Development
 
