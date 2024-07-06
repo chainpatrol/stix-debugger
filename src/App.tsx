@@ -2,6 +2,8 @@ import { Suspense, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { suspend } from "suspend-react";
+import { resolveRefs } from "json-refs";
+import * as Tabs from "@radix-ui/react-tabs";
 
 import { Bundle, Indicator, Malware, Relationship, StixBundle } from "./stix";
 
@@ -34,8 +36,58 @@ export default function App() {
       direction="horizontal"
       style={{ width: "100%", height: "100%", minHeight: 0 }}
     >
-      <Panel defaultSize={40} minSize={10} collapsible>
-        <Editor value={value} onChange={setValue} />
+      <Panel
+        defaultSize={40}
+        minSize={10}
+        collapsible
+        style={{ height: "100%" }}
+      >
+        <Tabs.Root
+          defaultValue="content"
+          style={{ height: "100%", display: "flex", flexDirection: "column" }}
+        >
+          <Tabs.List className="flex gap-4 px-4 border-b border-gray-200">
+            {[
+              {
+                value: "content",
+                label: "Content",
+              },
+              {
+                value: "json",
+                label: "JSON",
+              },
+            ].map((tab) => (
+              <Tabs.Trigger
+                key={tab.value}
+                value={tab.value}
+                className="py-2 border-b-2 border-transparent tracking-wide text-xs font-medium text-gray-600 uppercase data-[state=active]:border-orange-500 data-[state=active]:text-orange-500"
+              >
+                {tab.label}
+              </Tabs.Trigger>
+            ))}
+          </Tabs.List>
+          <Tabs.Content value="content" className="flex-1">
+            Hello world
+          </Tabs.Content>
+          <Tabs.Content value="json" className="flex-1">
+            <Suspense
+              fallback={
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    height: "100%",
+                  }}
+                >
+                  Loading...
+                </div>
+              }
+            >
+              <SuspenseEditor value={value} setValue={setValue} />
+            </Suspense>
+          </Tabs.Content>
+        </Tabs.Root>
       </Panel>
       <PanelResizeHandle style={{ width: 6, background: "#ddd" }} />
       <Panel defaultSize={60} minSize={40}>
@@ -89,4 +141,34 @@ function SuspenseGraph({ value }: { value: string }) {
     [value]
   );
   return <Graph nodes={graph.nodes} edges={graph.edges} />;
+}
+
+const schemaPath =
+  "https://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/bundle.json";
+
+function SuspenseEditor({
+  value,
+  setValue,
+}: {
+  value: string;
+  setValue: (value: string) => void;
+}) {
+  const schema = suspend(
+    () =>
+      fetch(schemaPath)
+        .then((res) => res.json())
+        .then((schema) =>
+          resolveRefs(schema as object, { location: schemaPath })
+        )
+        .then((result) => result.resolved),
+    []
+  );
+
+  return (
+    <Editor
+      value={value}
+      onChange={setValue}
+      schema={schema as Record<string, any>}
+    />
+  );
 }

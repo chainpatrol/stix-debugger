@@ -1,13 +1,17 @@
-import { json } from "@codemirror/lang-json";
+import { json, jsonParseLinter } from "@codemirror/lang-json";
 import { EditorState } from "@codemirror/state";
+import { linter } from "@codemirror/lint";
 import { EditorView } from "@codemirror/view";
 import { basicSetup } from "codemirror";
 import { useEffect, useRef } from "react";
+import { jsonSchema } from "codemirror-json-schema";
 
 export function Editor({
+  schema,
   value = "",
   onChange,
 }: {
+  schema: Record<string, any>;
   value?: string;
   onChange: (value: string) => void;
 }) {
@@ -21,7 +25,12 @@ export function Editor({
 
     const state = EditorState.create({
       doc: value,
-      extensions: [basicSetup, json()],
+      extensions: [
+        basicSetup,
+        json(),
+        linter(jsonParseLinter(), { delay: 300 }),
+        jsonSchema(schema),
+      ],
     });
 
     editorRef.current = new EditorView({
