@@ -32,44 +32,97 @@ export default function App() {
   const [value, setValue] = useState(() => JSON.stringify(bundle, null, 2));
 
   return (
-    <PanelGroup
-      direction="horizontal"
-      style={{ width: "100%", height: "100%", minHeight: 0 }}
-    >
-      <Panel
-        defaultSize={40}
-        minSize={10}
-        collapsible
-        style={{ height: "100%" }}
+    <main className="flex flex-col h-full">
+      <header className="px-4 py-3 border-b border-gray-200 flex justify-between  items-center">
+        <h1 className="text-2xl font-semibold tracking-tight text-gray-700">
+          STIX Visualizer
+        </h1>
+        <button className="px-4 py-2.5 bg-orange-500 text-white rounded-lg font-semibold text-sm border border-orange-600/20">
+          Share
+        </button>
+      </header>
+      <PanelGroup
+        direction="horizontal"
+        className="flex-1 overflow-hidden"
+        style={{ width: "100%", height: "100%", minHeight: 0 }}
       >
-        <Tabs.Root
-          defaultValue="content"
-          style={{ height: "100%", display: "flex", flexDirection: "column" }}
+        <Panel
+          defaultSize={40}
+          minSize={10}
+          collapsible
+          style={{ height: "100%" }}
         >
-          <Tabs.List className="flex gap-4 px-4 border-b border-gray-200">
-            {[
-              {
-                value: "content",
-                label: "Content",
-              },
-              {
-                value: "json",
-                label: "JSON",
-              },
-            ].map((tab) => (
-              <Tabs.Trigger
-                key={tab.value}
-                value={tab.value}
-                className="py-2 border-b-2 border-transparent tracking-wide text-xs font-medium text-gray-600 uppercase data-[state=active]:border-orange-500 data-[state=active]:text-orange-500"
+          <Tabs.Root
+            defaultValue="content"
+            style={{ height: "100%", display: "flex", flexDirection: "column" }}
+          >
+            <Tabs.List className="flex gap-4 px-4 border-b border-gray-200 shadow-sm">
+              {[
+                {
+                  value: "content",
+                  label: "Content",
+                },
+                {
+                  value: "json",
+                  label: "JSON",
+                },
+              ].map((tab) => (
+                <Tabs.Trigger
+                  key={tab.value}
+                  value={tab.value}
+                  className="py-3 border-b-2 border-transparent tracking-wide text-xs font-medium text-gray-600 uppercase data-[state=active]:border-orange-500 data-[state=active]:text-orange-500"
+                >
+                  {tab.label}
+                </Tabs.Trigger>
+              ))}
+            </Tabs.List>
+            <Tabs.Content value="content" className="flex-1">
+              Hello world
+            </Tabs.Content>
+            <Tabs.Content value="json" className="flex-1">
+              <Suspense
+                fallback={
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      height: "100%",
+                    }}
+                  >
+                    Loading...
+                  </div>
+                }
               >
-                {tab.label}
-              </Tabs.Trigger>
-            ))}
-          </Tabs.List>
-          <Tabs.Content value="content" className="flex-1">
-            Hello world
-          </Tabs.Content>
-          <Tabs.Content value="json" className="flex-1">
+                <SuspenseEditor value={value} setValue={setValue} />
+              </Suspense>
+            </Tabs.Content>
+          </Tabs.Root>
+        </Panel>
+        <PanelResizeHandle style={{ width: 6, background: "#ddd" }} />
+        <Panel defaultSize={60} minSize={40}>
+          <ErrorBoundary
+            resetKeys={[value]}
+            fallbackRender={({ error, resetErrorBoundary }) => (
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  height: "100%",
+                  padding: "1rem",
+                }}
+              >
+                <div>
+                  <h1>Something went wrong</h1>
+                  <pre style={{ whiteSpace: "pre-wrap" }}>
+                    {error instanceof Error ? error.message : String(error)}
+                  </pre>
+                  <button onClick={resetErrorBoundary}>Refresh</button>
+                </div>
+              </div>
+            )}
+          >
             <Suspense
               fallback={
                 <div
@@ -84,54 +137,12 @@ export default function App() {
                 </div>
               }
             >
-              <SuspenseEditor value={value} setValue={setValue} />
+              <SuspenseGraph value={value} />
             </Suspense>
-          </Tabs.Content>
-        </Tabs.Root>
-      </Panel>
-      <PanelResizeHandle style={{ width: 6, background: "#ddd" }} />
-      <Panel defaultSize={60} minSize={40}>
-        <ErrorBoundary
-          resetKeys={[value]}
-          fallbackRender={({ error, resetErrorBoundary }) => (
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                height: "100%",
-                padding: "1rem",
-              }}
-            >
-              <div>
-                <h1>Something went wrong</h1>
-                <pre style={{ whiteSpace: "pre-wrap" }}>
-                  {error instanceof Error ? error.message : String(error)}
-                </pre>
-                <button onClick={resetErrorBoundary}>Refresh</button>
-              </div>
-            </div>
-          )}
-        >
-          <Suspense
-            fallback={
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  height: "100%",
-                }}
-              >
-                Loading...
-              </div>
-            }
-          >
-            <SuspenseGraph value={value} />
-          </Suspense>
-        </ErrorBoundary>
-      </Panel>
-    </PanelGroup>
+          </ErrorBoundary>
+        </Panel>
+      </PanelGroup>
+    </main>
   );
 }
 
