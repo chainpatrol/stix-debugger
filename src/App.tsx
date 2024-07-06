@@ -1,8 +1,7 @@
 import { Suspense, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
-import { suspend } from "suspend-react";
-import { resolveRefs } from "json-refs";
+import { preload, suspend } from "suspend-react";
 import * as Tabs from "@radix-ui/react-tabs";
 
 import { Bundle, Indicator, Malware, Relationship, StixBundle } from "./stix";
@@ -11,6 +10,7 @@ import { JSONEditor } from "./JSONEditor";
 import { Graph } from "./Graph";
 import { convertBundleToGraph } from "./convertBundleToGraph";
 import { RichTextEditor } from "./RichTextEditor";
+import { fetchJsonSchema } from "./fetchJsonSchema";
 
 const indicator = Indicator()
   .patternType("stix")
@@ -36,9 +36,7 @@ export default function App() {
     <main className="flex flex-col h-full">
       <header className="px-4 py-3 border-b border-gray-200 flex justify-between items-center">
         <div className="flex items-center gap-3">
-          <h1 className="text-2xl font-semibold tracking-tight text-gray-700">
-            stix.ai
-          </h1>
+          <h1 className="text-xl tracking-tight text-gray-700">STIX Studio</h1>
           <span className="text-xs font-semibold text-gray-400 px-2 py-0.5 bg-gray-100 rounded-md">
             v0.1.0
           </span>
@@ -59,14 +57,14 @@ export default function App() {
           style={{ height: "100%" }}
         >
           <Tabs.Root
-            defaultValue="content"
+            defaultValue="editor"
             style={{ height: "100%", display: "flex", flexDirection: "column" }}
           >
             <Tabs.List className="flex gap-4 px-4 border-b border-gray-200 shadow-sm">
               {[
                 {
-                  value: "content",
-                  label: "Content",
+                  value: "editor",
+                  label: "Editor",
                 },
                 {
                   value: "json",
@@ -82,7 +80,7 @@ export default function App() {
                 </Tabs.Trigger>
               ))}
             </Tabs.List>
-            <Tabs.Content value="content" className="flex-1 overflow-y-auto">
+            <Tabs.Content value="editor" className="flex-1 overflow-y-auto">
               <RichTextEditor />
             </Tabs.Content>
             <Tabs.Content value="json" className="flex-1">
@@ -160,8 +158,11 @@ function SuspenseGraph({ value }: { value: string }) {
   return <Graph nodes={graph.nodes} edges={graph.edges} />;
 }
 
-const schemaPath =
+export const schemaPath =
   "https://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/bundle.json";
+
+// Preload the JSON schema
+preload(fetchJsonSchema, ["schema"]);
 
 function SuspenseJSONEditor({
   value,
@@ -170,22 +171,7 @@ function SuspenseJSONEditor({
   value: string;
   setValue: (value: string) => void;
 }) {
-  const schema = suspend(
-    () =>
-      fetch(schemaPath)
-        .then((res) => res.json())
-        .then((schema) =>
-          resolveRefs(schema as object, { location: schemaPath })
-        )
-        .then((result) => result.resolved),
-    []
-  );
+  const schema = suspend(() => fetchJsonSchema(), ["schema"]);
 
-  return (
-    <JSONEditor
-      value={value}
-      onChange={setValue}
-      schema={schema as Record<string, any>}
-    />
-  );
+  return <JSONEditor value={value} onChange={setValue} schema={schema} />;
 }

@@ -23,21 +23,17 @@ const extensions = [
 ];
 
 const defaultContent = `
-  <h1>Welcome to stix.ai!</h1>
+  <h1>Welcome to STIX Studio!</h1>
   
   <p>
-    This is a <strong>rich text editor</strong> with <em>SUPERPOWERS</em>!
-  </p>
-  
-  <p>
-    Writing STIX files by hand is a terrible user experience. stix.ai
+    Writing STIX files by hand is a terrible user experience. STIX Studio
     helps you craft STIX 2.1-compatible JSON documents by authoring them
     in a Notion-like editor.
   </p>
   
   <p>
-    Draft your incident reports on the <strong>Content</strong>, and then 
-    stix.ai will detect domains, IP addresses, and other indicators of 
+    Draft your incident reports here on the <strong>Editor</strong> tab, and then 
+    STIX Studio will detect domains, IP addresses, and other indicators of 
     compromise (IOCs) in your text and automatically generate the JSON
     for you!
   </p>
@@ -50,15 +46,14 @@ const defaultContent = `
         <li><strong>Internet:</strong> Domains, IP Address (v4 and v6), URLs</li>
         <li><strong>Blockchain:</strong> Smart Contracts, Transactions, Wallets</li>
         <li><strong>Social Media:</strong> Twitter, LinkedIn, Facebook, YouTube, etc.</li>
-        <li><strong>Cloud:</strong> AWS, GCP, Azure</li>
         <li><strong>File:</strong> Hashes, Files, Certificates</li>
       </ul>
     </li>
     <li>Incident report templates</li>
     <li>Import/Export to JSON</li>
-    <li>Keyboard shortcuts</li>
-    <li>Markdown support</li>
   </ul>
+
+  <h2>Example</h2>
 `;
 
 export function RichTextEditor() {
