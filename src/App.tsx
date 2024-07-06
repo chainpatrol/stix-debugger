@@ -34,7 +34,7 @@ export default function App() {
 
   return (
     <main className="flex flex-col h-full">
-      <header className="px-4 py-3 border-b border-gray-200 flex justify-between items-center">
+      <header className="px-4 py-3 bg-white border-b border-gray-200 flex justify-between items-center">
         <div className="flex items-center gap-3">
           <h1 className="text-xl tracking-tight text-gray-700">STIX Studio</h1>
           <span className="text-xs font-semibold text-gray-400 px-2 py-0.5 bg-gray-100 rounded-md">
@@ -47,19 +47,10 @@ export default function App() {
       </header>
       <PanelGroup
         direction="horizontal"
-        className="flex-1 overflow-hidden"
-        style={{ width: "100%", height: "100%", minHeight: 0 }}
+        className="flex-1 overflow-hidden min-h-0"
       >
-        <Panel
-          defaultSize={40}
-          minSize={10}
-          collapsible
-          style={{ height: "100%" }}
-        >
-          <Tabs.Root
-            defaultValue="editor"
-            style={{ height: "100%", display: "flex", flexDirection: "column" }}
-          >
+        <Panel defaultSize={40} minSize={10} collapsible className="h-full">
+          <Tabs.Root defaultValue="editor" className="h-full flex flex-col">
             <Tabs.List className="flex gap-4 px-4 border-b border-gray-200 shadow-sm">
               {[
                 {
@@ -86,14 +77,7 @@ export default function App() {
             <Tabs.Content value="json" className="flex-1">
               <Suspense
                 fallback={
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      height: "100%",
-                    }}
-                  >
+                  <div className="h-full grid place-items-center p-1">
                     Loading...
                   </div>
                 }
@@ -103,23 +87,15 @@ export default function App() {
             </Tabs.Content>
           </Tabs.Root>
         </Panel>
-        <PanelResizeHandle style={{ width: 6, background: "#ddd" }} />
+        <PanelResizeHandle className="w-1 bg-gray-200" />
         <Panel defaultSize={60} minSize={40}>
           <ErrorBoundary
             resetKeys={[value]}
             fallbackRender={({ error, resetErrorBoundary }) => (
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  height: "100%",
-                  padding: "1rem",
-                }}
-              >
+              <div className="h-full grid place-items-center p-1">
                 <div>
                   <h1>Something went wrong</h1>
-                  <pre style={{ whiteSpace: "pre-wrap" }}>
+                  <pre className="whitespace-pre-wrap">
                     {error instanceof Error ? error.message : String(error)}
                   </pre>
                   <button onClick={resetErrorBoundary}>Refresh</button>
@@ -129,14 +105,7 @@ export default function App() {
           >
             <Suspense
               fallback={
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    height: "100%",
-                  }}
-                >
+                <div className="h-full grid place-items-center p-1">
                   Loading...
                 </div>
               }

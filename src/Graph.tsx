@@ -56,7 +56,8 @@ export function Graph({
       onEdgesChange={onEdgesChange}
       fitView
       fitViewOptions={{ padding: 0.1 }}
-      connectionMode={ConnectionMode.Loose}>
+      connectionMode={ConnectionMode.Loose}
+    >
       <Controls />
       <MiniMap />
       <Background gap={12} size={1} />
@@ -211,7 +212,8 @@ function CustomNode({ id, data, selected, dragging }: NodeProps<NodeData>) {
           gap: "4px",
           opacity: dragging ? 0.5 : 1,
           transition: "opacity 0.2s ease-in-out",
-        }}>
+        }}
+      >
         <div
           style={{
             transform: "rotate(-90deg)",
@@ -220,7 +222,8 @@ function CustomNode({ id, data, selected, dragging }: NodeProps<NodeData>) {
             padding: "0 4px",
             borderRadius: "2px",
             fontSize: "8px",
-          }}>
+          }}
+        >
           {label}
         </div>
         <div>{data.label}</div>
@@ -236,17 +239,20 @@ function CustomNode({ id, data, selected, dragging }: NodeProps<NodeData>) {
 
 function CustomEdge({ id, label, source, target, ...props }: EdgeProps) {
   const sourceNode = useStore(
-    useCallback((store) => store.nodeInternals.get(source), [source]),
+    useCallback((store) => store.nodeInternals.get(source), [source])
   );
   const targetNode = useStore(
-    useCallback((store) => store.nodeInternals.get(target), [target]),
+    useCallback((store) => store.nodeInternals.get(target), [target])
   );
 
   if (!sourceNode || !targetNode) {
     return null;
   }
 
-  const { sx, sy, tx, ty, sourcePos, targetPos } = getEdgeParams(sourceNode, targetNode);
+  const { sx, sy, tx, ty, sourcePos, targetPos } = getEdgeParams(
+    sourceNode,
+    targetNode
+  );
 
   const [edgePath, labelX, labelY] = getSmoothStepPath({
     sourceX: sx,
@@ -281,7 +287,8 @@ function CustomEdge({ id, label, source, target, ...props }: EdgeProps) {
             color: "white",
             borderRadius: "2px",
           }}
-          className="nodrag nopan">
+          className="nodrag nopan"
+        >
           {label}
         </div>
       </EdgeLabelRenderer>
@@ -313,11 +320,11 @@ function getParams(nodeA: Node, nodeB: Node): [number, number, Position] {
 
 function getHandleCoordsByPosition(
   node: Node,
-  handlePosition: Position,
+  handlePosition: Position
 ): [number, number] {
   // all handles are from type source, that's why we use handleBounds.source here
   const handle = node[internalsSymbol]?.handleBounds?.source?.find(
-    (h) => h.position === handlePosition,
+    (h) => h.position === handlePosition
   );
 
   if (!handle) {

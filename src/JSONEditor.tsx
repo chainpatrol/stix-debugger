@@ -52,12 +52,7 @@ export function JSONEditor({
   return (
     <div
       ref={containerRef}
-      style={{
-        width: "100%",
-        height: "100%",
-        overflow: "hidden",
-        display: "contents",
-      }}
+      className="h-full w-full overflow-hidden contents"
     />
   );
 }
