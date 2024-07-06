@@ -7,9 +7,10 @@ import * as Tabs from "@radix-ui/react-tabs";
 
 import { Bundle, Indicator, Malware, Relationship, StixBundle } from "./stix";
 
-import { Editor } from "./Editor";
+import { JSONEditor } from "./JSONEditor";
 import { Graph } from "./Graph";
 import { convertBundleToGraph } from "./convertBundleToGraph";
+import { RichTextEditor } from "./RichTextEditor";
 
 const indicator = Indicator()
   .patternType("stix")
@@ -33,10 +34,15 @@ export default function App() {
 
   return (
     <main className="flex flex-col h-full">
-      <header className="px-4 py-3 border-b border-gray-200 flex justify-between  items-center">
-        <h1 className="text-2xl font-semibold tracking-tight text-gray-700">
-          STIX Visualizer
-        </h1>
+      <header className="px-4 py-3 border-b border-gray-200 flex justify-between items-center">
+        <div className="flex items-center gap-3">
+          <h1 className="text-2xl font-semibold tracking-tight text-gray-700">
+            stix.ai
+          </h1>
+          <span className="text-xs font-semibold text-gray-400 px-2 py-0.5 bg-gray-100 rounded-md">
+            v0.1.0
+          </span>
+        </div>
         <button className="px-4 py-2.5 bg-orange-500 text-white rounded-lg font-semibold text-sm border border-orange-600/20">
           Share
         </button>
@@ -76,8 +82,8 @@ export default function App() {
                 </Tabs.Trigger>
               ))}
             </Tabs.List>
-            <Tabs.Content value="content" className="flex-1">
-              Hello world
+            <Tabs.Content value="content" className="flex-1 overflow-y-auto">
+              <RichTextEditor />
             </Tabs.Content>
             <Tabs.Content value="json" className="flex-1">
               <Suspense
@@ -94,7 +100,7 @@ export default function App() {
                   </div>
                 }
               >
-                <SuspenseEditor value={value} setValue={setValue} />
+                <SuspenseJSONEditor value={value} setValue={setValue} />
               </Suspense>
             </Tabs.Content>
           </Tabs.Root>
@@ -157,7 +163,7 @@ function SuspenseGraph({ value }: { value: string }) {
 const schemaPath =
   "https://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/bundle.json";
 
-function SuspenseEditor({
+function SuspenseJSONEditor({
   value,
   setValue,
 }: {
@@ -176,7 +182,7 @@ function SuspenseEditor({
   );
 
   return (
-    <Editor
+    <JSONEditor
       value={value}
       onChange={setValue}
       schema={schema as Record<string, any>}

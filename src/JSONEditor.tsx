@@ -6,7 +6,7 @@ import { basicSetup } from "codemirror";
 import { useEffect, useRef } from "react";
 import { jsonSchema } from "codemirror-json-schema";
 
-export function Editor({
+export function JSONEditor({
   schema,
   value = "",
   onChange,

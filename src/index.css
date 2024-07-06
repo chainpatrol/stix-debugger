@@ -45,3 +45,20 @@ body {
 .cm-editor {
   height: 100%;
 }
+
+.tiptap {
+  .is-empty::before {
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
+  }
+
+  p.is-empty::before {
+    color: theme("colors.gray.400");
+  }
+
+  h1.is-empty::before {
+    color: theme("colors.gray.300");
+  }
+}
