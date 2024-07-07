@@ -47,6 +47,14 @@ body {
 }
 
 .tiptap {
+  .mention {
+    background-color: theme("colors.violet.50");
+    border-radius: 0.4rem;
+    box-decoration-break: clone;
+    color: theme("colors.violet.600");
+    padding: 0.1rem 0.3rem;
+  }
+
   .is-empty::before {
     content: attr(data-placeholder);
     float: left;

@@ -1440,12 +1440,35 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tiptap/extension-link@npm:^2.4.0":
+  version: 2.4.0
+  resolution: "@tiptap/extension-link@npm:2.4.0"
+  dependencies:
+    linkifyjs: "npm:^4.1.0"
+  peerDependencies:
+    "@tiptap/core": ^2.0.0
+    "@tiptap/pm": ^2.0.0
+  checksum: 10c0/260d89b349d59728a948ac098b38fbb96ed8472a923ee56ff78e3f3486662abca777d1c19a7ec85120723eaabe97f08dae85fcae09e0c040714ca85e5deb4780
+  languageName: node
+  linkType: hard
+
 "@tiptap/extension-list-item@npm:^2.4.0":
   version: 2.4.0
   resolution: "@tiptap/extension-list-item@npm:2.4.0"
   peerDependencies:
     "@tiptap/core": ^2.0.0
   checksum: 10c0/76db4b1b06b5422af7a40aa736f57b139ec6a6b462604c89ba8f5509be365c61aaa1ace451ed207231e6e298f21c6212ee9ee26583adf06421c3ce0d3cdf2014
+  languageName: node
+  linkType: hard
+
+"@tiptap/extension-mention@npm:^2.4.0":
+  version: 2.4.0
+  resolution: "@tiptap/extension-mention@npm:2.4.0"
+  peerDependencies:
+    "@tiptap/core": ^2.0.0
+    "@tiptap/pm": ^2.0.0
+    "@tiptap/suggestion": ^2.0.0
+  checksum: 10c0/917fccd5a34f5e9cf26ed4113ce09c04338645e2661d0e704e1b101b9f356257263e7c3703e8d5fc3cedebcdb394f987645ee57dd74bb00e4a8625b6ba91e5ab
   languageName: node
   linkType: hard
 
@@ -1560,6 +1583,16 @@ __metadata:
     "@tiptap/extension-strike": "npm:^2.4.0"
     "@tiptap/extension-text": "npm:^2.4.0"
   checksum: 10c0/209c5044851fc9f4eb627236ab3cab251527ef0737db112a1fad0df9ebb92b9ff86ca88a1f09627ab968de37fcec77830370d6533718021fdf27dbf926e75279
+  languageName: node
+  linkType: hard
+
+"@tiptap/suggestion@npm:^2.4.0":
+  version: 2.4.0
+  resolution: "@tiptap/suggestion@npm:2.4.0"
+  peerDependencies:
+    "@tiptap/core": ^2.0.0
+    "@tiptap/pm": ^2.0.0
+  checksum: 10c0/5c2b8431316bf875ab4f61c1c8de39751bbb70b2cb08906ce13d38d495f00c2d92eb0d9ca04162fef0e543e472c8f6debb3a3612fe0dc2f8db5b9d097e02a38f
   languageName: node
   linkType: hard
 
@@ -5015,6 +5048,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"linkifyjs@npm:^4.1.0":
+  version: 4.1.3
+  resolution: "linkifyjs@npm:4.1.3"
+  checksum: 10c0/9fb71da06ee710b5587c8b61ff9a0e45303d448f61fab135e44652cff95c09c1abe276158a72384cff6f35a2371d1cec33dfaa7e5280b71dbb142b43d210c75a
+  languageName: node
+  linkType: hard
+
 "local-pkg@npm:^0.5.0":
   version: 0.5.0
   resolution: "local-pkg@npm:0.5.0"
@@ -6995,10 +7035,13 @@ __metadata:
     "@radix-ui/react-tabs": "npm:^1.1.0"
     "@tailwindcss/typography": "npm:^0.5.13"
     "@tiptap/extension-document": "npm:^2.4.0"
+    "@tiptap/extension-link": "npm:^2.4.0"
+    "@tiptap/extension-mention": "npm:^2.4.0"
     "@tiptap/extension-placeholder": "npm:^2.4.0"
     "@tiptap/pm": "npm:^2.4.0"
     "@tiptap/react": "npm:^2.4.0"
     "@tiptap/starter-kit": "npm:^2.4.0"
+    "@tiptap/suggestion": "npm:^2.4.0"
     "@types/node": "npm:^20.11.27"
     "@types/react": "npm:^18.2.56"
     "@types/react-dom": "npm:^18.2.19"

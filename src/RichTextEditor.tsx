@@ -2,6 +2,8 @@ import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
 import Document from "@tiptap/extension-document";
+import Link from "@tiptap/extension-link";
+import Mention from "@tiptap/extension-mention";
 
 const extensions = [
   Document.extend({
@@ -9,6 +11,12 @@ const extensions = [
   }),
   StarterKit.configure({
     document: false,
+  }),
+  Link,
+  Mention.configure({
+    HTMLAttributes: {
+      class: "mention",
+    },
   }),
   Placeholder.configure({
     considerAnyAsEmpty: false,
@@ -23,37 +31,25 @@ const extensions = [
 ];
 
 const defaultContent = `
-  <h1>Welcome to STIX Studio!</h1>
-  
+  <h2>Example: Emotet Distribution via Phishing</h2>
+
   <p>
-    Writing STIX files by hand is a terrible user experience. STIX Studio
-    helps you craft STIX 2.1-compatible JSON documents by authoring them
-    in a Notion-like editor.
-  </p>
-  
-  <p>
-    Draft your incident reports here on the <strong>Editor</strong> tab, and then 
-    STIX Studio will detect domains, IP addresses, and other indicators of 
-    compromise (IOCs) in your text and automatically generate the JSON
-    for you!
+    Emotet is a banking trojan that can steal financial information, such as 
+    online banking credentials. It is also a malware downloader, meaning it can 
+    download other malware onto infected systems. Emotet is known for its
+    polymorphic nature, which helps it evade detection by antivirus software.
   </p>
 
-  <h2>Features</h2>
+  <h3>Indicators of Compromise</h3>
+
+  <p>
+    Here are some indicators of compromise (IOCs) associated with Emotet:
+  </p>
 
   <ul>
-    <li>10+ asset types
-      <ul>
-        <li><strong>Internet:</strong> Domains, IP Address (v4 and v6), URLs</li>
-        <li><strong>Blockchain:</strong> Smart Contracts, Transactions, Wallets</li>
-        <li><strong>Social Media:</strong> Twitter, LinkedIn, Facebook, YouTube, etc.</li>
-        <li><strong>File:</strong> Hashes, Files, Certificates</li>
-      </ul>
-    </li>
-    <li>Incident report templates</li>
-    <li>Import/Export to JSON</li>
+    <li><span data-type="mention" data-id="google.com">google.com</span></li>
+    <li><span data-type="mention" data-id="1.1.1.1">1.1.1.1</span></li>
   </ul>
-
-  <h2>Example</h2>
 `;
 
 export function RichTextEditor() {
